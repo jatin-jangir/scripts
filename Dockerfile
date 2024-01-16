@@ -11,4 +11,4 @@ RUN mv migrate.linux-amd64 $GOPATH/bin/migrate
 RUN chmod +x reset-script.sh
 
 # Specify the default command to run when the container starts
-CMD ["/bin/bash", "-c", "reset-script.sh"]
+CMD ["/bin/bash", "-c", "bash reset-script.sh"]
