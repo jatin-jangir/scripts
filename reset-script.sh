@@ -39,14 +39,19 @@ git clone https://github.com/devtron-labs/devtron -b $DEVTRON_BRANCH
 git clone https://github.com/devtron-labs/lens -b $LENS_BRANCH
 
 
+echo "postgres://$DB_CRED$DB_HOST:$DB_PORT/$ORCHESTRATOR_DB?sslmode=disable up;"
 migrate -path ./devtron/scripts/sql -database postgres://$DB_CRED$DB_HOST:$DB_PORT/$ORCHESTRATOR_DB?sslmode=disable up;
 PGPASSWORD=$PGPASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USER_NAME -d $ORCHESTRATOR_DB -t -c "select * from schema_migration;"
+
+echo "postgres://$DB_CRED$DB_HOST:$DB_PORT/$CASBIN_DB?sslmode=disable up;"
 migrate -path ./devtron/scripts/casbin  -database postgres://$DB_CRED$DB_HOST:$DB_PORT/$CASBIN_DB?sslmode=disable up;
 PGPASSWORD=$PGPASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USER_NAME -d $CASBIN_DB -t -c "select * from schema_migration;"
 
+echo "postgres://$DB_CRED$DB_HOST:$DB_PORT/$GIT_SENSOR_DB?sslmode=disable up;"
 migrate -path ./git-sensor/scripts/sql  -database postgres://$DB_CRED$DB_HOST:$DB_PORT/$GIT_SENSOR_DB?sslmode=disable up;
 PGPASSWORD=$PGPASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USER_NAME -d $GIT_SENSOR_DB -t -c "select * from schema_migration;"
 
+echo "postgres://$DB_CRED$DB_HOST:$DB_PORT/$LENS_DB?sslmode=disable up;"
 migrate -path ./lens/scripts/sql  -database postgres://$DB_CRED$DB_HOST:$DB_PORT/$LENS_DB?sslmode=disable up;
 PGPASSWORD=$PGPASSWORD psql -h $DB_HOST -p $DB_PORT -U $DB_USER_NAME -d $LENS_DB -t -c "select * from schema_migration;"
 
